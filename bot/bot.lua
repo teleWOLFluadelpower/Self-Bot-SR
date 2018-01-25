@@ -71,12 +71,12 @@ end
 if cernerbk then
 cernerbk = cernerbk:lower()
 end
- if MsgType == 'text' and cerner then
+ if cerner then
 if cerner:match('^[/#!]') then
 cerner= cerner:gsub('^[/#!]','')
 end
 end
- if MsgType == 'text' and cernerw then
+ if cernerw then
 if cernerw:match('^[/#!]') then
 cernerw= cernerw:gsub('^[/#!]','')
 end
