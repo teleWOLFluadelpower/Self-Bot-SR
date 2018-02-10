@@ -1,13 +1,13 @@
 tdbot = dofile("./bot/function.lua")
 -------------------------------
-SUDO_ID = {SUDOID}
-my = 'SudoID'
+SUDO_ID = {497391069}
+my = '497391069'
 badkhah = {
 "sajad momen",
 }
 myname = { 
 "amir",
-"@amuchris",
+"@ami4bagheri",
   }
 Answer = {
 "bale?",
