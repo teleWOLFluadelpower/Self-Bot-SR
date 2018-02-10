@@ -1,5 +1,5 @@
 dofile('./bot/utils.lua')
-my = 'SudoID'
+my = '497391069'
 URL = require('socket.url')
 http = require('socket.http')
 https = require('ssl.https')
@@ -7,7 +7,7 @@ json = dofile('./libs/JSON.lua')
 CerNerCompany = 'اختصاصی کرنر کمپانی '
 serpent = dofile("./libs/serpent.lua")
 tdbot = dofile("./bot/function.lua")
---MsgTime = os.time() - 60
+MsgTime = os.time() - 60
 day = 86400
 Redis =  require ('redis')
 redis = Redis.connect('127.0.0.1', 6379)
@@ -15,6 +15,10 @@ function dl_cb(arg, data)
 end
 function GetMessages(msg,data)
 if msg then
+  if msg.date < tonumber(MsgTime) then
+print('OLD MESSAGE')
+return false
+end
 if not redis:sismember(my..'AllGroup',msg.chat_id) then
 redis:sadd(my..'AllGroup',msg.chat_id)
 end  
