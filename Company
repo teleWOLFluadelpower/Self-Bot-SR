@@ -1,0 +1,4 @@
+while true; do
+nice -n -5 ./CPM l
+sleep 5
+done
