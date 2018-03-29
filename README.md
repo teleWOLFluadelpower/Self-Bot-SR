@@ -29,4 +29,5 @@ Company Channels:
 [CerNer Company](https://github.com/CerNerCompany)
 
 -------------------
- <div align="center"><a href="https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q"><img src="https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q" width="300"></a></div>
+Support : [CerNerGroup](https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q)
+
