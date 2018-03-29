@@ -10,14 +10,15 @@ Self Bot based on https://valtman.name/telegram-bot
 After installing the dependencies, lets install the bot:
 ```bash
  git clone https://github.com/CerNerCompany/Self-Bot
- cd S*
- chmod +x C
- ./C install
- ./C config
- ./C login-Cli # Will ask you for a phone number & confirmation code.
- ./C start
+ cd Self-Bot
+ chmod +x CPM
+ ./CPM c --Configing Bot
+ ./CPM lc --Login Self
+ ./CPM l --Launching Bot
  ---------
- screen ./Co*
+ -----Nice Bot-----
+ chmod +x Company
+ screen ./Company
  ---------
 ```
 Developer:
@@ -28,5 +29,4 @@ Company Channels:
 [CerNer Company](https://github.com/CerNerCompany)
 
 -------------------
-More information [CerNer Company](https://t.me/joinchat/FbE8wFF2ImkSiaZbvFem4w)
-
+ <div align="center"><a href="https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q"><img src="https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q" width="300"></a></div>
