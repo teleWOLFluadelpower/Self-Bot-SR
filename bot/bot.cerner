@@ -815,17 +815,6 @@ else
 tdbot.send(msg.chat_id,msg.id,'Error not found !','md')
 end
 end
-if cerner == '9gag' then
-tdbot.deleteMessages(msg.chat_id,{[0] =msg.id})
-    local url, title = get_9GAG()
-    local gag_file = '/tmp/gag.jpg'
-    local g_file = ltn12.sink.file(io.open(gag_file, 'w'))
-    http.request {
-        url = url,
-        sink = g_file,
-      }
-tdbot.sendPhoto(msg.chat_id, msg.id, gag_file,'')
-    end
 local url = nil
 if cerner == "boobs" then
 tdbot.deleteMessages(msg.chat_id,{[0] =msg.id})
@@ -902,9 +891,9 @@ local calca = cerner:match('^calc (.*)')
 Calculate(msg,calca)
 end
 if cerner == 'backup' then
-tdbot.sendDocument(my,0,'./bot/bot.lua','Bot.lua')
-tdbot.sendDocument(my,0,'./bot/utils.lua','utils.lua')
-tdbot.sendDocument(my,0,'./bot/function.lua','function.lua')
+tdbot.sendDocument(my,0,'./bot/bot.cerner','Bot.cerner')
+tdbot.sendDocument(my,0,'./bot/utils.cerner','utils.cerner')
+tdbot.sendDocument(my,0,'./bot/function.cerner','function.cerner')
 tdbot.sendDocument(my,0,'/var/lib/redis/dump.rdb','redis.rdb')
 tdbot.send(msg.chat_id,msg.id,'Sented!','md')
 end
@@ -973,13 +962,14 @@ if cerner == 'reload' then
 for k,v in pairs(reloading) do
 tdbot.send(msg.chat_id,msg.id,v,'md')
 end
-dofile('./bot/bot.lua')
+dofile('./bot/bot.cerner')
+dofile('./bot/function.cerner')
 end
 if cerner == 'dump' then 
 function VarDump(CerNer,Company)
 local TeXT = serpent.block(Company, {comment=false})
 text= string.gsub(TeXT, "\n","\n\r\n")
-tdbot.send(msg.chat_id, msg.id, text,'html')
+tdbot.send(msg.chat_id, msg.id, text..'\n@CerNerCompany','html')
  end
 if tonumber(msg.reply_to_message_id) == 0 then
 else
