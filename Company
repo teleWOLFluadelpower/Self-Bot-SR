@@ -1,3 +1,4 @@
+echo -e "\e[101m                              Launching....                          \e[00;37;40m"
 while true; do
 nice -n -5 ./CPM l
 sleep 5
