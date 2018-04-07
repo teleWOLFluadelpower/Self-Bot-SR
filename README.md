@@ -1,4 +1,6 @@
-#Every 20 stars one update#
+#Every 20 stars one update
+
+
 # Self-Bot
 Self Bot based on https://valtman.name/telegram-bot
  
