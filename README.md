@@ -20,8 +20,8 @@ After installing the dependencies, lets install the bot:
  ./CPM l --Launching Bot
  ---------
  -----Nice Bot-----
- chmod +x AutoRunning.sh
- screen ./AutoRunning.sh
+ chmod +x AutoRuning.sh
+ screen ./AutoRuning.sh
  ---------
 ```
 Developer:
