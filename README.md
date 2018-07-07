@@ -29,8 +29,8 @@ Developer:
 
 Company Channels:
 --------------------
-[CerNer Company](https://github.com/CerNerCompany)
+[CerNer Company](https://t.me/CerNerCompany)
 
 -------------------
-Support : [CerNerGroup](https://t.me/joinchat/HaWV3VL1zsAj4g2CHN-H6Q)
+Support : [CerNerGroup](https://t.me/joinchat/Ix7AWEwh0QKPg--YLR96FQ)
 
