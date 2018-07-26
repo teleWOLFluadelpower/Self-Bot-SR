@@ -2,6 +2,7 @@ dofile('./bot/utils.cerner')
 URL = require('socket.url')
 http = require('socket.http')
 https = require('ssl.https')
+utf8 = dofile('./bot/utf8.cerner')
 json = dofile('./libs/JSON.lua')
 CerNerCompany = 'اختصاصی کرنر کمپانی '
 serpent = dofile("./libs/serpent.lua")
@@ -234,6 +235,11 @@ local text = [[
 تنظیم زمان حساسیت فلود 
 #tosticker
 تبدیل عکس به استیکر
+---New CMD --- 
+clean member 
+حذف تمامی کاربران
+m متن @username 
+ارسال متن منشن با شناسه مورد نظر
 ]]
 tdbot.send(chat_id,msg.id,text,'html')
 end
@@ -964,6 +970,31 @@ tdbot.send(msg.chat_id,msg.id,v,'md')
 end
 dofile('./bot/bot.cerner')
 dofile('./bot/function.cerner')
+end
+if cerner and cerner:match('^m (.*) @(.*)') then
+CR = {string.match(cerner, '^m (.*) @(.*)$') }
+    function SendMention(CerNer,Company)
+    if Company.id then
+        tdbot.deleteMessages(msg.chat_id,{[0] =msg.id})
+    text = utf8.len(CR[1])
+tdbot.sendMention(msg.chat_id, Company.id, msg.id, CR[1], 0, text)
+else
+tdbot.send(msg.chat_id, msg.id,  '`User Not Found`', 'md')
+    end
+    end
+    tdbot.ResolveUsername(CR[2],SendMention)
+    end
+if cerner == 'clean members' then
+function CMBU(CerNer,Company)
+for k, v in pairs(Company.members) do
+tdbot.send(msg.chat_id, msg.id,  '`Member Correct` : *'..k..'*', 'md')
+if v.user_id ~= myid then
+tdbot.KickUser(msg.chat_id, v.user_id)
+end
+tdbot.send(msg.chat_id, msg.id,  '*All Members Has Been Kicked* ', 'md')
+end
+end
+tdbot.getChannelMembers(msg.chat_id,0,350, "Recent", CMBU)
 end
 if cerner == 'dump' then 
 function VarDump(CerNer,Company)
