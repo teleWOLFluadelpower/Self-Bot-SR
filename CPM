@@ -127,17 +127,11 @@ sleep 5
 nano /$HOME/.telegram-bot/config
 echo -e "\e[1m\e[32m==> \e[97m==> Applying changes...\e[0m"
 echo -e "\e[1m\e[34m  -> \e[97m==> Done."
-echo -e "  \e[5m==> Please,, edit the file \n \e[0m"
-
-sleep 4
-nano /$HOME/$BotH/bot/bot.cerner
-echo -e "\e[1m\e[32m==> \e[97m==> Applying changes...\e[0m"
-echo -e "\e[1m\e[34m  -> \e[97m==> Done."
-echo -e "  \e[5m==> Please, for example, edit the file \n\e[0m"
-sleep 3 
+echo -e "  \e[5m==> Please,, edit the file \n For Configing \e[0m"
 nano /$HOME/$BotH/bot/utils.cerner
 echo -e "\e[1m\e[32m==> \e[97m==> Applying changes...\e[0m"
 echo -e "\e[1m\e[34m  -> \e[97m==> Done."
+sleep 6
 if [ -f "$HOME/$BotH/bot/bot.cerner" ]
 then
 echo -e "\e[1m\e[32m==> \e[97mThe file is correct..  [bot.cerner]\e[0m"
