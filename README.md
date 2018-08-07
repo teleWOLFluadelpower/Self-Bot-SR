@@ -32,5 +32,9 @@ Company Channels:
 [CerNer Company](https://t.me/CerNerCompany)
 
 -------------------
-Support : [CerNerGroup](https://t.me/joinchat/Ix7AWEwh0QKPg--YLR96FQ)
+Support : [CerNer & Linux Errors](https://t.me/joinchat/Ix7AWEwh0QIdXNaA_oKnng)
+
+
+
+[خرید نسخه 4 PRO](https://t.me/BashLinux)
 
