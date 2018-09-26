@@ -35,6 +35,3 @@ Company Channels:
 Support : [CerNer & Linux Errors](https://t.me/joinchat/Ix7AWEwh0QIdXNaA_oKnng)
 
 
-
-[خرید نسخه 4 PRO](https://t.me/BashLinux)
-
