@@ -92,11 +92,11 @@ _ = "chatMemberStatus" ..s
 }, dl_cb, nil))
 end
 CerNerCompany.Left = Left
-function changedescription(MaTaDoR,Company)
+function changedescription(chatget,dec)
 assert (tdbot_function ({
 _ = 'changeChannelDescription',
-channel_id = getChatId(MaTaDoR).id,
-description = Company
+channel_id = getChatId(chatget).id,
+description = dec
 }, dl_cb, nil))
 end
 CerNerCompany.changedescription = changedescription
