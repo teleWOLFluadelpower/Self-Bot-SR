@@ -25,7 +25,7 @@ echo -e "\e[107m                              Configing....                     
 
 if [ -d "$HOME/$BotH" ];then
 if [ ! -f ./tg ]; then
-wget --progress=bar:force https://valtman.name/files/telegram-bot-180329-nightly-linux 2>&1 | DOVVB
+wget --progress=bar:force https://valtman.name/files/telegram-bot-180221-nightly-linux 2>&1 | DOVVB
 mv telegram-bot-180329-nightly-linux tg; chmod +x tg
 
 echo -e "\e[1m\e[97m==> TD successfully downloaded "
