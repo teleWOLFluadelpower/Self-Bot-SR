@@ -258,7 +258,7 @@ PreMessage= function (msg,fast)
 if msg then
   if is_Enemy(msg.sender_user_id) and not is_sudo(msg.sender_user_id) then
 
--- return tdbot.sendText(msg.chat_id, msg.id,dataEnemyBAD[math.random(#dataEnemyBAD)], 'md', false, false, false, 0, nil, nil, nil)
+ return tdbot.sendText(msg.chat_id, msg.id,dataEnemyBAD[math.random(#dataEnemyBAD)], 'md', false, false, false, 0, nil, nil, nil)
   
   end
 end
