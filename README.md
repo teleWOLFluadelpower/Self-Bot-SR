@@ -3,7 +3,7 @@
 
 # Changed
 ```
-Self-BOT-SR => https://github.com/cernercompany/Self-Bot-SR
+Last update > Self-BOT-SR => https://gitlab.com/crco-project/Self-Bot-SR
  ```
 
 Developer:
