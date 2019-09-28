@@ -4,7 +4,8 @@
 # Changed
 ```
 Last update > Self-BOT-SR => https://gitlab.com/crco-project/Self-Bot-SR/tree/beta
- ```# Self-Bot PROJECT  Beta =>  2
+ ```
+ # Self-Bot PROJECT  Beta =>  2
 
 # installing
 
