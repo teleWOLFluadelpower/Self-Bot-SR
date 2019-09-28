@@ -358,12 +358,18 @@ function tdbot.getUser(user_id, callback, data)
     user_id = user_id
   }, callback or dl_cb, data))
 end
-
+function tdbot.stopPoll(chat_id,msg_id)
+   assert (tdbot_function ({
+    ["@type"] = 'stopPoll',
+    chat_id = chat_id,
+    poll_id = msg_id
+  }, callback or dl_cb, data))
+end
 function tdbot.getUserFullInfo(user_id, callback, data)
-  assert (tdbot_function ({
+tdbot_function ({
     ["@type"] = 'getUserFullInfo',
     user_id = user_id
-  }, callback or dl_cb, data))
+  }, callback or dl_cb, data)
 end
 
 function tdbot.getBasicGroup(basic_group_id, callback, data)
@@ -694,14 +700,13 @@ function tdbot.getPublicMessageLink(chat_id, message_id, for_album, callback, da
   }, callback or dl_cb, data))
 end
 
-function tdbot.sendMessageAlbum(chat_id, reply_to_message_id, input_message_contents, disable_notification, from_background, callback, data)
+function tdbot.sendMessageAlbum(chat_id, reply_to_message_id, photo,caption,width,height, disable_notification, from_background, callback, data)
   assert (tdbot_function ({
     ["@type"] = 'sendMessageAlbum',
     chat_id = chat_id,
     reply_to_message_id = reply_to_message_id or 0,
     disable_notification = disable_notification,
-    from_background = from_background,
-    input_message_contents = input_message_contents
+    from_background = from_background
   }, callback or dl_cb, data))
 end
 
@@ -726,17 +731,16 @@ function tdbot.sendInlineQueryResultMessage(chat_id, reply_to_message_id, disabl
   }, callback or dl_cb, data))
 end
 
-function tdbot.forwardMessages(chat_id, from_chat_id, message_ids, disable_notification, from_background, as_album, callback, data)
-  assert (tdbot_function ({
-    ["@type"] = 'forwardMessages',
+function tdbot.forwardMessages(chat_id, from_chat_id, message_id, from_background)
+  tdbot_function ({
+    _ = "forwardMessages",
     chat_id = chat_id,
     from_chat_id = from_chat_id,
-    message_ids = vectorize(message_ids),
-    disable_notification = disable_notification,
-    from_background = from_background,
-    as_album = as_album
-  }, callback or dl_cb, data))
-end
+    message_ids = message_id,
+    disable_notification = 0,
+    from_background = from_background
+    }, dl_cb, nil)
+    end
 
 function tdbot.sendChatSetTtlMessage(chat_id, ttl, callback, data)
   assert (tdbot_function ({
@@ -1236,9 +1240,32 @@ function tdbot.setChatMemberStatus(chat_id, user_id, status, right, callback, da
     ["@type"] = 'setChatMemberStatus',
     chat_id = chat_id,
     user_id = user_id,
-    status = chat_member_status
+   
   }, callback or dl_cb, data))
 end
+function tdbot.Restrict(chat_id, user_id, right,callback, data)
+  local right =  {}
+assert (tdbot_function ({
+  ["@type"] = 'setChatMemberStatus',
+  chat_id = chat_id,
+  user_id = user_id,
+  status = {
+    ["@type"] = "chatMemberStatusRestricted",
+    is_member = right[0] or 1,
+    permissions = {
+      ["@type"] = "chatPermissions",
+      can_add_web_page_previews = right[5] or 1,
+      can_send_media_messages = right[3] or 1,
+      can_send_messages = right[2] or 1,
+      can_send_other_messages = right[4] or 1,
+      can_send_polls = right[6] or 1
+    },
+    restricted_until_date = right[1] or 1
+  },
+
+}, callback or dl_cb, data))
+end
+
 
 function tdbot.getChatMember(chat_id, user_id, callback, data)
   assert (tdbot_function ({
@@ -1248,6 +1275,12 @@ function tdbot.getChatMember(chat_id, user_id, callback, data)
   }, callback or dl_cb, data))
 end
 
+function tdbot.leaveChat(chat_id, callback, data)
+  assert (tdbot_function ({
+    ["@type"] = 'leaveChat',
+    chat_id = chat_id
+  }, callback or dl_cb, data))
+end
 function tdbot.searchChatMembers(chat_id, query, limit, callback, data)
   assert (tdbot_function ({
     ["@type"] = 'searchChatMembers',
@@ -2450,52 +2483,31 @@ function tdbot.sendText(chat_id, reply_to_message_id, text, parse_mode, disable_
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendAnimation(chat_id, reply_to_message_id, animation, caption, parse_mode, duration, width, height, thumbnail, thumb_width, thumb_height, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendAnimation(chat_id, reply_to_message_id, animation, caption, parse_mode, disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageAnimation',
     animation = getInputFile(animation),
-    thumbnail = {
-      ["@type"] = 'inputThumbnail',
-      thumbnail = getInputFile(thumbnail),
-      width = thumb_width,
-      height = thumb_height
-    },
-    caption = {text = caption},
-    duration = duration,
-    width = width,
-    height = height
+    caption = {text = caption}
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendAudio(chat_id, reply_to_message_id, audio, caption, parse_mode, duration, title, performer, thumbnail, thumb_width, thumb_height, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendAudio(chat_id, reply_to_message_id, audio, caption, parse_mode, title, performer,  disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageAudio',
     audio = getInputFile(audio),
-    album_cover_thumbnail = {
-      ["@type"] = 'inputThumbnail',
-      thumbnail = getInputFile(thumbnail),
-      width = thumb_width,
-      height = thumb_height
-    },
     caption = {text = caption},
-    duration = duration,
     title = tostring(title),
     performer = tostring(performer)
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendDocument(chat_id, reply_to_message_id, document, caption, parse_mode, thumbnail, thumb_width, thumb_height, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendDocument(chat_id, reply_to_message_id, document, caption, parse_mode, disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageDocument',
     document = getInputFile(document),
-    thumbnail = {
-      ["@type"] = 'inputThumbnail',
-      thumbnail = getInputFile(thumbnail),
-      width = thumb_width,
-      height = thumb_height
-    },
+   
     caption = {text = caption}
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
@@ -2515,40 +2527,24 @@ function tdbot.sendPhoto(chat_id, reply_to_message_id, photo, caption, parse_mod
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendSticker(chat_id, reply_to_message_id, sticker, width, height, disable_notification, thumbnail, thumb_width, thumb_height, from_background, reply_markup, callback, data)
+function tdbot.sendSticker(chat_id, reply_to_message_id, sticker, width, height, disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageSticker',
     sticker = getInputFile(sticker),
-    thumbnail = {
-      ["@type"] = 'inputThumbnail',
-      thumbnail = getInputFile(thumbnail),
-      width = thumb_width,
-      height = thumb_height
-    },
     width = width,
     height = height
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, nil, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendVideo(chat_id, reply_to_message_id, video, caption, parse_mode, added_sticker_file_ids, duration, width, height, ttl, thumbnail, thumb_width, thumb_height, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendVideo(chat_id, reply_to_message_id, video, caption, parse_mode)
   local input_message_content = {
     ["@type"] = 'inputMessageVideo',
     video = getInputFile(video),
-    thumbnail = {
-      ["@type"] = 'inputThumbnail',
-      thumbnail = getInputFile(thumbnail),
-      width = thumb_width,
-      height = thumb_height
-    },
-    caption = {text = caption},
-    added_sticker_file_ids = vectorize(added_sticker_file_ids),
-    duration = duration,
-    width = width,
-    height = height,
-    ttl = ttl
+    caption = {text = caption}
+
   }
-  sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
+  sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, true, true, nil, nil, nil)
 end
 
 function tdbot.sendVideoNote(chat_id, reply_to_message_id, video_note, duration, length, thumbnail, thumb_width, thumb_height, disable_notification, from_background, reply_markup, callback, data)
@@ -2567,13 +2563,11 @@ function tdbot.sendVideoNote(chat_id, reply_to_message_id, video_note, duration,
   sendMessage(chat_id, reply_to_message_id, input_message_content, nil, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendVoiceNote(chat_id, reply_to_message_id, voice_note, caption, parse_mode, duration, waveform, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendVoiceNote(chat_id, reply_to_message_id, voice_note, caption, parse_mode,  disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageVoiceNote',
     voice_note = getInputFile(voice_note),
-    caption = {text = caption},
-    duration = duration,
-    waveform = waveform
+    caption = {text = caption}
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
