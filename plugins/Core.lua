@@ -2,7 +2,27 @@ pat = { "^(ping)$",
         "^(help)$",
         "^(panel)$",
         "^(dump)$",
+        "^(leave)$",
+        "^(ass)$",
+        "^(mute)$",
+        "^(mute) (.*)$",
+        "^(delall)$",
+        "^(delall) (.*)$",
+        "^(unmute)$",
+        "^(unmute) (.*)$",
+        "^(kick)$",
+        "^(kick) (.*)$",
+        "^(whois) (.*)$",
+        "^(block) (.*)$",
+        "^(unblock) (.*)$",
+        "^(mydel)$",
         "^(tagall)$",
+        "^(inv) (.*)$",
+        "^(share)$",
+        "^(id)$",
+        "^(inv)$",
+        "^(flood) (.*)$",
+        "^(block)$",
         "^(private settings)$",
        "^(texttype) (.*)$",
        "^(markread) (.*)$",
@@ -15,8 +35,252 @@ pat = { "^(ping)$",
 function run(msg,crco)
     if is_sudo(msg.sender_user_id) then
 if crco[1] == 'ping' then
-    return tdbot.editMessageText(msg.chat_id, msg.id, 'READY', 'md', false, 0, nil, nil, nil)
+     tdbot.editMessageText(msg.chat_id, msg.id, 'READY', 'md', false, 0, nil, nil, nil)
+
 end
+if crco[1] == 'whois' then
+   getMainUser =  function(arg,crco_)
+  
+    getMainUserFull =  function(arg,co)
+        if crco_ and crco_._ == 'error' then
+            text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+        tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+    else
+firstname = ('|'..crco_.first_name..'|' or '')
+if crco_.phone_number then
+    number = '|'..string.sub(crco_.phone_number, 1, 8)..'####|'
+else
+number = '|NOT ACS|'
+end
+lastname = '|'..crco_.last_name..'|' or ''
+    userstatus = getUserStatus(crco_.status)
+    userType = getUserType(crco_.type)
+    bio = '|'..co.bio..'|' or ''
+    if crco_.profile_photo then
+    tdbot.downloadFile(crco_.profile_photo.big.id, 1, nil, nil)
+    end
+    common_count = '|'..co.group_in_common_count..'|'
+ if co.can_be_called then
+    acsscall = '|Blocked|'
+ else
+    acsscall = '|Not Blocked|'
+ end
+ if co.has_private_calls then
+    private_call = '|Private|'
+ else
+    private_call = 'EveryBody'
+ end
+ text = '☤ *User Fully info* ☤ \n☤ *First Name* `:` *'..firstname..'*\n☤ *Last Name* `:` *'..lastname..'*\n☤* Phone Number* `:` *'..number..'*\n☤* Bio* `:` *'..bio..'*\n☤ *Status* `:` *'..userstatus..'*\n☤ *Type* `:` *'..userType..'* \n☤ *Chat With Self* `:` *'..common_count..'*\n☤* Call* `:` *'..acsscall..'*\n☤* Private Call* `:` *'..private_call..'*'
+if string.len(crco_.profile_photo.big["local"].path) > 0 then
+    tdbot.deleteMessages(msg.chat_id,{[1] =msg.id})
+ tdbot.sendPhoto(msg.chat_id,msg.id,crco_.profile_photo.big["local"].path, text, 'md',0, 0, 0, false, true, nil, nil, nil)
+elseif crco_.profile_photo and string.len(crco_.profile_photo.big["local"].path) == 0  then
+    tdbot.editMessageText(msg.chat_id, msg.id, 'Message : *Search Completed !*\n`whois '..tonumber(crco[2])..'`', 'md', false, 0, nil, nil, nil)
+elseif not crco_.profile_photo then
+    tdbot.editMessageText(msg.chat_id, msg.id, text, 'md', false, 0, nil, nil, nil)
+end
+    
+   end
+end
+   tdbot.getUserFullInfo(tonumber(crco[2]), getMainUserFull, nil)
+end
+   tdbot.getUser(tonumber(crco[2]), getMainUser, nil)
+end
+
+if crco[1] == 'leave' then
+    getMainLEFT=  function(tet,co)
+        if co and co._ == 'error' then
+            text = "Message : <b>Access Denied</b>\n<b>"..co.message.."</b>"
+        else
+            text = '<b>Bye :)</b>'
+        end
+        tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+    end
+    tdbot.leaveChat(msg.chat_id,getMainLEFT,nil)
+end
+if crco[1] == 'mute' and tonumber(msg.reply_to_message_id) > 0  then
+    GetMainMessage=   function(arg,CR)
+      getMainMute(CR.sender_user_id,msg)
+      end
+        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+    end
+    if crco[1] == 'mute' and crco[2] and crco[2]:match('^%d+$')then
+        getMainMute(crco[2],msg)
+    end
+    if crco[1] == 'mute'  and crco[2] and not crco[2]:match('^%d+$') then
+        getMainUsername = function(ex,CR)
+          if not CR.id then
+            return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+            else
+                getMainMute(CR.id,msg)
+        end
+        end
+        tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+        end 
+        if crco[1] == 'unmute' and tonumber(msg.reply_to_message_id) > 0  then
+            GetMainMessage=   function(arg,CR)
+              getMainUnMute(CR.sender_user_id,msg)
+              end
+                tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+            end
+            if crco[1] == 'unmute' and crco[2] and crco[2]:match('^%d+$')then
+                getMainUnMute(crco[2],msg)
+            end
+            if crco[1] == 'unmute'  and crco[2] and not crco[2]:match('^%d+$') then
+                getMainUsername = function(ex,CR)
+                  if not CR.id then
+                    return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+                    else
+                        getMainUnMute(CR.id,msg)
+                end
+                end
+                tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+                end 
+if crco[1] == 'kick' and tonumber(msg.reply_to_message_id) > 0  then
+    GetMainMessage=   function(arg,CR)
+      getMainBanned(CR.sender_user_id,msg)
+      end
+        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+    end
+    if crco[1] == 'kick' and crco[2] and crco[2]:match('^%d+$')then
+        getMainBanned(crco[2],msg)
+    end
+    if crco[1] == 'kick'  and crco[2] and not crco[2]:match('^%d+$') then
+        getMainUsername = function(ex,CR)
+          if not CR.id then
+            return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+            else
+                getMainBanned(CR.id,msg)
+        end
+        end
+        tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+        end 
+if crco[1] == 'block' and crco[2] and crco[2]:match('^%d+$') then
+    Mainblockuser(crco[2],msg)
+end
+if crco[1] == 'unblock' and crco[2] and crco[2]:match('^%d+$') then
+    Mainunblockuser(crco[2],msg)
+end
+if crco[1] == 'block' and tonumber(msg.reply_to_message_id) > 0  then
+    GetMainMessage=   function(arg,CR)
+      Mainblockuser(CR.sender_user_id,msg)
+      end
+        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+    end
+    if crco[1] == 'unblock' and tonumber(msg.reply_to_message_id) > 0  then
+        GetMainMessage=   function(arg,CR)
+          Mainunblockuser(CR.sender_user_id,msg)
+          end
+            tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+        end
+        if crco[1] == 'block'  and crco[2] and not crco[2]:match('^%d+$') then
+            getMainUsername = function(ex,CR)
+              if not CR.id then
+                return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+                else
+                  Mainblockuser(CR.id,msg)
+            end
+            end
+            tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+            end 
+            if crco[1] == 'unblock' and crco[2] and not crco[2]:match('^%d+$') then
+                getMainUsername = function(ex,CR)
+                  if not CR.id then
+                    return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+                    else
+                      Mainunblockuser(CR.id,msg)
+                end
+                end
+                tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+                end 
+                if crco[1] == 'delall' and crco[2] and crco[2]:match('^%d+$') then
+                    mainDelallMessage(crco[2],msg)
+                end
+                if crco[1] == 'delall' and tonumber(msg.reply_to_message_id) > 0  then
+                    GetMainMessage=   function(arg,CR)
+                        mainDelallMessage(CR.sender_user_id,msg)
+                      end
+                        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+                    end
+                    if crco[1] == 'delall'  and crco[2] and not crco[2]:match('^%d+$') then
+                        getMainUsername = function(ex,CR)
+                          if not CR.id then
+                            return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+                            else
+                                mainDelallMessage(CR.id,msg)
+                        end
+                        end
+                        tdbot.searchPublicChat(crco[2],getMainUsername,nil)
+                        end 
+                       
+if crco[1] == 'share' then
+    tdbot.deleteMessages(msg.chat_id,{[1] =msg.id})
+    return tdbot.sendContact(msg.chat_id,(msg.reply_to_message_id or msg.id), bot.phone_number, bot.name, bot.last_name, bot.id, false, true, nil, nil, nil)
+    end
+    if crco[1] == 'flood' and tonumber(msg.reply_to_message_id) > 0 then
+     tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),function(cr,co)
+        for i=1,crco[2] do
+          tdbot.forwardMessages(msg.chat_id, msg.chat_id, {[1] = msg.reply_to_message_id}, 1)
+        end
+    end)
+end
+
+        if crco[1] == 'mydel' then
+            getMainMessage_ = function(arg,co)
+                if co and co._ == 'error' then
+                    text = "Message : <b>Access Denied</b>\n<b>"..co.message.."</b>"
+
+                end
+                tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+
+            end
+                    tdbot.deleteChatMessagesFromUser(msg.chat_id, bot.id, getMainMessage_, nil)
+                end
+            
+                if crco[1] == 'ass' then
+                res,status = http.request("http://api.obutts.ru/noise/"..math.random(1,999).."/"..math.random(1,100))
+ 
+                local data = encode_json.decode(res)[math.random(1,100)]
+                 if data then 
+                    tdbot.deleteMessages(msg.chat_id,{[1] =msg.id})
+                    file =  Download('http://media.obutts.ru/' .. data.preview,'/CO.jpg')
+          tdbot.sendPhoto(msg.chat_id,msg.id, file, 'ID : *'..data.id..'*', 'md',0, 0, 0, false, true, nil, nil, nil)
+
+               os.execute('rm ./CRCO/CO.jpg')
+                else 
+                    tdbot.editMessageText(msg.chat_id, msg.id, 'Error 404 ,  try again' , 'md', false, 0, nil, nil, nil)
+
+
+                end
+            end
+    if crco[1] == 'id' and tonumber(msg.reply_to_message_id) > 0 then
+        getMainMesages = function(arg,co)
+            tdbot.editMessageText(msg.chat_id, msg.id, last..'*User ID* : `'..co.sender_user_id..'`', 'md', false, 0, nil, nil, nil)
+
+        end
+        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),getMainMesages,nil)
+    end
+if crco[1] == 'inv' and crco[2] and crco[2]:match('^%d+$') then
+  invateUser(tonumber(crco[2]),msg)
+end
+if crco[1] == 'inv' and tonumber(msg.reply_to_message_id) > 0  then
+    GetMainMessage=   function(arg,CR)
+        invateUser(CR.sender_user_id,msg)
+      end
+        tdbot.getMessage(msg.chat_id, tonumber(msg.reply_to_message_id),GetMainMessage,nil)
+    end
+if crco[1] == 'inv' and crco[2] and not crco[2]:match('^%d+$') then
+    invMainuser = function(ex,CR)
+      if not CR.id then
+        return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *User * :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
+
+        else
+           invateUser(tonumber(CR.id),msg)
+    end
+    end
+
+    tdbot.searchPublicChat(crco[2],invMainuser,nil)
+    end
 if crco[1] == 'panel' then
  markread = returndata(Get('for_all','markread'))
  if Get('for_all','self-off') then
@@ -26,11 +290,13 @@ if crco[1] == 'panel' then
  end
  readmessage = returndata(Get('other','ReadMessage:'..msg.chat_id))
  texttype = returndata(Get('other','TextType'))
+ enemymod = returndata(Get('for_all','ENEMY:FI'))
+mainclerktext = returndata(Get('other','clerk:text'))
  timestatusBio = returndata(Get('other','Self-Time')) 
  textBioMain = returndata(Get('other','Self-Bio-MAIN'))
 clerkmod = returndata(Get('other','clerkTYPE'))
 clerkstatus = returndata(Get('other','ClerkMod'))
-text_ = '☤ *Self Status* _:_ *'..selfstatus..'*\n☤ *Markread* `:` *'..markread..'*\n☤ *Clerk* `:` *'..clerkstatus..'*\n☤ *Clerk Type* `:` *'..clerkmod..'*\n☤ *Read Message* `:` *'..readmessage..'*\n☤ *Text Type* `:` *'..texttype:upper()..'*\n☤ *Time in Bio* `:` *'..timestatusBio..'*\n☤ *Main Bio* `:` *'..textBioMain..'*'
+text_ = '☤ *Self Status* _:_ *'..selfstatus..'*\n☤ *Markread* `:` *'..markread..'*\n☤ *Clerk* `:` *'..clerkstatus..'*\n☤ *Clerk Type* `:` *'..clerkmod..'*\n☤ *Clerk MTEXT* `:` *'..mainclerktext..'*\n☤ *Enemy Mod * `:` *'..enemymod..'*\n☤ *Read Message* `:` *'..readmessage..'*\n☤ *Text Type* `:` *'..texttype:upper()..'*\n☤ *Time in Bio* `:` *'..timestatusBio..'*\n☤ *Main Bio* `:` *'..textBioMain..'*'
 return tdbot.editMessageText(msg.chat_id, msg.id, text_..SelfVersion, 'md', false, 0, nil, nil, nil)
 end
  if crco[1] == 'markread' and crco[2] then
@@ -49,6 +315,22 @@ else
     return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Mark message in chats successfully disabled !', 'md', false, 0, nil, nil, nil)
 end
 end
+if crco[1] == 'enemy' and crco[2] then
+    if crco[2] == 'on' then
+              EN = true
+elseif crco[2] == 'off' then
+    EN = nil
+else
+    return
+end
+if EN then 
+    save('for_all','ENEMY:FI',true)
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Enemy mod successfully enabled !', 'md', false, 0, nil, nil, nil)
+else 
+    del('for_all','ENEMY:FI')
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Enemy mod successfully disabled !', 'md', false, 0, nil, nil, nil)
+end
+end
 if crco[1] == 'read message' and crco[2] then
     if crco[2] == 'on' then
         read = true
@@ -60,10 +342,10 @@ if crco[1] == 'read message' and crco[2] then
 
     if read then
     save('other','ReadMessage:'..msg.chat_id,true)
-       return tdbot.editMessageText(msg.chat_id, msg.id, 'Message: Read all the Mentions in Chat successfully enabled !', 'md', false, 0, nil, nil, nil)
+       return tdbot.editMessageText(msg.chat_id, msg.id, 'Message: *Read all the Mentions in Chat successfully enabled !*', 'md', false, 0, nil, nil, nil)
     else
         del('other','ReadMessage:'..msg.chat_id)
-        return tdbot.editMessageText(msg.chat_id, msg.id, 'Message: Read all the Mentions in Chat has beed disabled !', 'md', false, 0, nil, nil, nil)
+        return tdbot.editMessageText(msg.chat_id, msg.id, 'Message: *Read all the Mentions in Chat has beed disabled !*', 'md', false, 0, nil, nil, nil)
 
     end
 end 
@@ -78,13 +360,16 @@ if crco[1] == 'self' and crco[2] then
     end
     if self then 
         del('for_all','self-off')
-        return 'Message : SELF is enabled '
+        text=  'Message : *Self-Project has been enabled !*'
+
     else
        
         save('for_all','self-off',true)
 
-        return 'Message : SELF is disabled'
+        text = 'Message : *Self-Project has been disabled !*'
     end
+        tdbot.editMessageText(msg.chat_id, msg.id, text, 'md', false, 0, nil, nil, nil)
+
 end
 
 if crco[1] == 'private settings' then
@@ -134,7 +419,7 @@ tdbot.getUserPrivacySettingRules('ShowLinkInForwardedMessages',getstatus_,nil)
 end
 users = {}
     username_  = {}
-if crco[1] == 'tagall' then
+if crco[1] == 'tagall' and is_supergroup(msg) then
     local  text = 'Online users ==> \n'
     getchatMembers = function(add,crco)
     num = crco.total_count
@@ -211,7 +496,7 @@ if crco[1] == 'help' then
     *clerk* _on/off_
     `Enable or Disable Clerk Mod`
 
-    *setclerk* reply in _gif_/videonote_/voicenote_/_text_
+    *setclerk* reply in _gif/videonote/voicenote/text_
     `Set Clerk Return `
 
     *setenemy* _username/userid/reply_
@@ -225,6 +510,77 @@ if crco[1] == 'help' then
 
     *enemylist*
     `Show MotherFuckers in list`  
+
+    *enemymod* _off/on_
+    `Enable or Disable Enemy MOD`
+    
+    *mydel*
+    `Del all self message`
+
+    *share* 
+    `Share Self Phone number`
+
+    *flood* _number_
+    `Flooding in chat by forward message`
+
+    *inv* _username/userid/reply_
+    `invate user to chat`
+
+    *kick* _username/userid/reply_
+    `banned user from group`
+
+    *ass*
+    `Show Ass +18`
+
+    *whois* _userid_
+   `Show fully User info`
+
+   *setclerktext* _reply_
+   `Text Clerk for caption`
+
+   *mute* _username/userid/reply_
+   `Mute user in group`
+
+   *unmute* _username/userid/reply_
+   `Unmute user in group`
+
+   *block* _username/userid/reply_
+   `Block user in self account`
+
+   *unblock* _username/userid/reply_
+   `Unblock user in self account`
+
+   *leave*
+   `Left from group`
+
+   *save* _reply_
+   `Save file to database`
+
+   *get* _filename_
+   `Get file in database by name`
+
+   *files*
+   `list of files` 
+
+   *gifset* _cmd_
+   `set you'r gif to cmd`
+
+   *gifdel* _cmd_
+  `delete gif cmd`
+
+  *gifs*
+  `list of gifs cmd`
+
+  *stickerset* _cmd_
+  `set you'r sticker to cmd`
+
+  *stickerdel* _cmd_
+  `delete sticker cmd`
+
+  *stickers*
+ `list of stickers cmd`
+
+
     ]]
     return tdbot.editMessageText(msg.chat_id, msg.id,text..SelfVersion,'md',false, 0, nil, nil, nil)
 
@@ -243,8 +599,7 @@ end
 if crco[1] == 'dump' then 
     function VarDump(CerNer,Company)
     local text = encode_json.encode(Company)
-  
-    print(encode_json.encode(Company))
+
     return tdbot.editMessageText(msg.chat_id, msg.id, text,'html',false, 0, nil, nil, nil)
 
      end
@@ -345,6 +700,8 @@ end
 return {
        patterns = pat,
                 runing = run ,
+                cmd = false,
+                lower = false,
             run = pre 
 }
 
