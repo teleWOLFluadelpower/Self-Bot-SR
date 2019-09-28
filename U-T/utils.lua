@@ -456,12 +456,14 @@ function save_array_test(tab)
       end
 
 CHECK = function(VAL,NAME)
+  if config.data[VAL] then
   for k,v in pairs(config.data[VAL]) do
  
       if NAME == v then
           return k
       end
   end
+end
   return false
 end
 is_Saved = function(pth,name)
