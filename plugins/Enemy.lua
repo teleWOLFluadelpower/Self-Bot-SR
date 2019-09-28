@@ -2,10 +2,9 @@ patterns_ = {
   '^(setenemy)$',
   "^(delenemy)$",
   "^(clean enemylist)$",
-  '^(setenemy) @(.*)$',
-  "^(delenemy) @(.*)$",
-  '^(setenemy) (%d+)$',
-  "^(delenemy) (%d+)$",
+  '^(setenemy) (.*)$',
+  "^(delenemy) (.*)$",
+  "^(1 to) (%d+)$",
   "^(enemylist)$"
   }
 dataEnemyBAD ={
@@ -197,15 +196,12 @@ mainCO = function(msg,crco)
     enemy ={}
     userenemy = {}
     if crco[1] == 'enemylist' then
+      data_list = Get('Enemys') or {}
       local  text = 'Enemys ==> \n'
-  if  getTableSize(Get('Enemys')) ~= 0 then
-
-
-  
-      for key, value in pairs(Get('Enemys')) do
+      for key, value in pairs(data_list) do
       text = text..key.." - "..(getuserMain(value) or '').." "..value.."\n" 
     end
-    else
+    if #data_list == 0 then
       text = 'ENEMY DATA ==> <b>Empty</b>'
     end
        return tdbot.editMessageText(msg.chat_id, msg.id,text,'html',false, 0, nil, nil, nil)
@@ -215,13 +211,23 @@ mainCO = function(msg,crco)
         del('Enemys')
         return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *enemies(mother fuckers) List has been cleared *','md',false, 0, nil, nil, nil)
       end
-      if crco[1] == 'setenemy' and crco[2] then
-        setEnemy(crco[2],msg)
+      if crco[1] == 'setenemy' and crco[2] and crco[2]:match('^%d+$') then
+        setEnemy(tonumber(crco[2]),msg)
       end
-      if crco[1] == 'delenemy' and crco[2] then
-        removeEnemy(crco[2],msg)
+      if crco[1] == 'delenemy' and crco[2] and crco[2]:match('^%d+$') then
+        removeEnemy(tonumber(crco[2]),msg)
       end
-  if crco[1] == 'setenemy' and crco[2] then
+      if crco[1] == '1 to' and crco[2] and crco[2]:match('^%d+$') then
+        numberget = crco[2]
+        tdbot.deleteMessages(msg.chat_id,{[1] =msg.id})
+        for i=1,tonumber(numberget) do
+         tdbot.sendText(msg.chat_id, 0,i, 'md', false, false, false, 0, nil, nil, nil)
+
+        end
+        tdbot.sendText(msg.chat_id, 0,'HELLO MOTHER FUCKER', 'md', false, false, false, 0, nil, nil, nil)
+
+        end
+  if crco[1] == 'setenemy' and crco[2] and not crco[2]:match('^%d+$') then
         setMainEnemy = function(ex,CR)
           if not CR.id then
             return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *mother fucker* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
@@ -233,7 +239,7 @@ mainCO = function(msg,crco)
 
         tdbot.searchPublicChat(crco[2],setMainEnemy,nil)
         end 
-        if crco[1] == 'delenemy' and crco[2] then
+        if crco[1] == 'delenemy' and crco[2] and not crco[2]:match('^%d+$') then
           delMainEnemy = function(ex,CR)
             if not CR.id then
               return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *mother fucker* :`'..ec_name(crco[2])..'` * is Not Found *','md',false, 0, nil, nil, nil)
@@ -256,7 +262,7 @@ end
 end
 PreMessage= function (msg,fast)
 if msg then
-  if is_Enemy(msg.sender_user_id) and not is_sudo(msg.sender_user_id) then
+  if Get('for_all','ENEMY:FI') and is_Enemy(msg.sender_user_id) and not is_sudo(msg.sender_user_id) then
 
  return tdbot.sendText(msg.chat_id, msg.id,dataEnemyBAD[math.random(#dataEnemyBAD)], 'md', false, false, false, 0, nil, nil, nil)
   
@@ -264,4 +270,9 @@ if msg then
 end
 
 end
-return {patterns = patterns_,runing = mainCO,run = PreMessage}
+return {patterns = patterns_,
+  runing = mainCO,
+    cmd = false,
+                lower = false,
+        run = PreMessage
+}
