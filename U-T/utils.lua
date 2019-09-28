@@ -25,8 +25,13 @@ configEnv = {}
 configEnv.data = {
   plist = {
     "Core",
-    "P-l"
+    "P-l",
+    "Clerk",
+    "FileManager",
+    "Enemy"
   },
+  other = {},
+  for_all = {}
 }   
 getMainMessage=function (...)
  
