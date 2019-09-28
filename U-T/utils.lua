@@ -78,7 +78,7 @@ end
 
 end
 
-SelfVersion = '\n*Version* _:_`|beta 1.9|`'
+SelfVersion = '\n*Version* _:_`|BETA => 2|`'
 dofile_ = function(filename)
 if io.open("./U-T/"..filename..'.lua' or '','r') ==nil then
  text =  'No file exists on this path !\n==> CRCO PROJET <=='
@@ -119,7 +119,151 @@ end
 
 threads = {}
 
+getMainMute = function (user_id,msg)
+  if type(user_id) == 'number' then
+      getData = function(arg,co)
 
+          if co and co._ == 'error' then
+              text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+          else
+              text = 'Message : <b>User</b> <code>:</code> <b>'..getuserMain(user_id)..'</b> <b>Has been muted</b> !'
+      
+      end
+          tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+      
+      end
+   
+  mute = { 
+      0,--is member 
+      0,--2 send text 
+      0,--3 send media 
+     0, --4 send other msg 
+      0,--5 send link
+      0--6 send poll 
+      
+    }
+      tdbot.Restrict(msg.chat_id, user_id,mute,  getData, data)
+  
+      end
+      end
+      getMainUnMute = function (user_id,msg)
+          if type(user_id) == 'number' then
+              getData = function(arg,co)
+                  if co and co._ == 'error' then
+                      text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+                  else
+                      text = 'Message : <b>User</b> <code>:</code> <b>'..getuserMain(user_id)..'</b> <b>Has been unmuted</b> !'
+              
+              end
+                  tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+              
+              end
+              unmute =  { 
+                  1,--is member 
+                  1,--2 send text 
+                  1,--3 send media 
+                 1, --4 send other msg 
+                  1,--5 send link
+                  1--6 send poll 
+                  
+                }
+                tdbot.Restrict(msg.chat_id, user_id,unmute,  getData, data)
+  
+              end
+              end
+  getMainBanned = function(user_id,msg)
+      if type(user_id) == 'number' then
+  getData = function(arg,co)
+      if co and co._ == 'error' then
+          text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+      else
+          text = 'Message : <b>User</b> <code>:</code> <b>'..getuserMain(user_id)..'</b> <b>Has been banned</b> !'
+  
+  end
+      tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+  
+  end
+  
+  tdbot.setChatMemberStatus(msg.chat_id, user_id, 'Banned',0, getData, data)
+  end
+  end
+  getSixe = function(b)
+    local l = "B"
+    if b > 1024 then
+    b = b / 1024
+    l = "KB"
+    if b > 1024 then
+    b = b / 1024
+    l = "MB"
+    if b > 1024 then
+    b = b / 1024
+    l = "GB"
+    end
+    end
+        end
+        return string.format("%7.2f%2s",b,l)
+    end
+  mainDelallMessage = function(user_id,msg)
+      if type(user_id) == 'number' then
+  getMainMessage_ = function(arg,co)
+      if co and co._ == 'error' then
+          text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+  
+      end
+      tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+  
+  end
+          tdbot.deleteChatMessagesFromUser(msg.chat_id, user_id, getMainMessage_, nil)
+      
+  end
+  end
+  Mainblockuser = function(user_id,msg)
+      if type(user_id) == 'number' then
+          getMainMessage_ = function(arg,co)
+              if co and co._ == 'error' then
+                  text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+              else
+                  text = 'Message : <b>User</b> <code>:</code> <b>'..getuserMain(user_id)..'</b> <b>Has been blocked</b> !'
+  
+              end
+              tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+          
+          end
+          tdbot.blockUser(user_id,getMainMessage_,nil)
+      end
+  end
+  Mainunblockuser = function(user_id,msg)
+      if type(user_id) == 'number' then
+          getMainMessage_ = function(arg,co)
+              if co and co._ == 'error' then
+                  text = "Message : <b>Access Denied</b>\nError : <b>"..co.message.."</b>"
+              else
+                  text = 'Message : <b>User</b> <code>:</code> <b>'..getuserMain(user_id)..'</b> <b>Has been unblocked</b> !'
+  
+              end
+              tdbot.editMessageText(msg.chat_id, msg.id, text, 'html', false, 0, nil, nil, nil)
+          
+          end
+          tdbot.unblockUser(user_id,getMainMessage_,nil)
+      end
+  end
+  invateUser = function(user_id,msg)
+      if type(user_id) == 'number' then
+          print(user_id)
+      checkCanbeAdduser = function(arg,co) 
+          if co._ == 'error' then
+              text = 'Message : <b>Access Denied</b>\n\nUser : <b>'..user_id..'</b> - '..getuserMain(user_id) or ''
+              tdbot.editMessageText(msg.chat_id,msg.id,text, 'html', false, 0, nil, nil, nil)
+  
+          else
+              text = 'Message : <b>User Invated</b>\n\nUser : <b>'..user_id..'</b> - '..getuserMain(user_id) or ''
+              tdbot.editMessageText(msg.chat_id,msg.id,text, 'html', false, 0, nil, nil, nil)
+  
+      end
+  end
+          tdbot.addChatMember(msg.chat_id, user_id, 13, checkCanbeAdduser, nil)
+  end
+  end
 function getTableSize(t)
   local count = 0
   for _, __ in pairs(t) do
@@ -134,7 +278,7 @@ local username_ = nil
   if g.username then
 username_ = '@'..g.username
   else
-  username_ = ''
+  username_ = g.first_name
   end
   end
 tdbot.getUser(user_id,getid,nil)
@@ -212,11 +356,50 @@ else
 end
   CreateFile(config , "./U-T/config.lua")
 end
-setex = function(val,name) 
-  time = os.time()
-
-  ---coming soon
+getUserStatus = function(status)
+  if status then
+  if status._ == 'userStatusOnline' then
+  PreStatus = '|Online|'
+  elseif status._ == 'userStatusLastMonth' then
+  PreStatus = '|Last Month|'
+  elseif status._ == 'userStatusLastWeek' then
+  PreStatus = '|Last Week|'
+  elseif status._ == 'userStatusRecently' then
+  PreStatus = '|Recently|'
+  elseif status._ == 'userStatusOffline' then
+  PreStatus= '|Offline|'
+  elseif status._ == 'userStatusEmpty' then
+  PreStatus = '|The user status was never changed|'
+  end
+else
+    PreStatus = '|Error 404|'
 end
+  return PreStatus
+  end
+  savePre = function(name,file_size,file_type)
+    if type(file_size) == 'number' and type(file_type) == 'string' then
+    save("FileManager:FileSize:"..name,file_size)
+    sadd("FileManager:Files:",name)
+    save('FileManager:TypeFile:'..name,file_type)
+  end
+end
+  getUserType = function(type)
+    if type then
+    if type._ == 'userTypeRegular' then
+    PreType = '|userType|'
+    elseif type._ == 'userTypeDeleted' then
+    PreType = '|userDeleted|'
+    elseif type._ == 'userTypeBot' then
+    PreType = '|userBot|'
+    elseif type._ == 'userTypeUnknown' then
+    PreType = '|Unknown|'
+    end
+  else
+      PreType = '|Error 404|'
+  end
+    return PreType
+  end
+  
 returndata = function(value)
 if  value == nil  then
   return '|D|'
@@ -266,23 +449,51 @@ function save_array_test(tab)
       end
       return CRCO
       end
-sadd = function(val,name)
-  if not config.data[val] then
-    config.data[val] = {}
-  end
-  table.insert(config.data[val] ,name)
-  CreateFile(config , "./U-T/config.lua")
-end
+
 CHECK = function(VAL,NAME)
   for k,v in pairs(config.data[VAL]) do
+ 
       if NAME == v then
           return k
       end
   end
   return false
 end
+is_Saved = function(pth,name)
+
+    list = config.data[pth] or {}
+ 
+  
+         for v,value in pairs(list) do
+          if name == value then
+            print('var false for aly')
+          var = false
+          else 
+            var = true
+         end
+        end
+
+        if #list == 0 then
+          print('var true for {}')
+          var = true
+        end    
+  print(var)
+      return var
+    
+end
+sadd = function(val,name)
+  if not config.data[val] then
+    config.data[val] = {}
+  end
+  if is_Saved(val,name)  then
+  table.insert(config.data[val] ,name)
+  CreateFile(config , "./U-T/config.lua")
+  end
+end
 sremove = function(val,name)
+if CHECK(val,name) then
   table.remove(config.data[val] ,CHECK(val,name))
+end
 end
 searchvl=function(y,x) 
      for _R,v in pairs(config[data][y]) do 
@@ -349,6 +560,43 @@ is_private = function(msg)
   chat_id = tostring(msg.chat_id)
   if chat_id:match('^-') then return false else return true end
   end
+  function Download(url, file_name)
+    print("url to download: "..url)
+    local respbody = {}
+    local options = {
+    url = url,
+    sink = ltn12.sink.table(respbody),
+    redirect = true
+    }
+    local response = nil
+    if url:match('^https') then
+    options.redirect = false
+    response = {https.request(options)}
+    else
+    response = {http.request(options)}
+    end
+    local code = response[2]
+    local headers = response[3]
+    local status = response[4]
+    if code ~= 200 then return nil end
+    file_name = file_name or get_http_file_name(url, headers)
+    local file_path = "./CRCO"..file_name
+    print("Saved to: "..file_path)
+    file = io.open(file_path, "w+")
+    file:write(table.concat(respbody))
+    file:close()
+    return file_path
+    end
+    is_supergroup = function(msg)
+chat_id = tostring(msg.chat_id)
+if chat_id:match('^-100') then 
+if not msg.is_channel_post then
+return true
+end
+else
+return false
+end
+end
   exists = function(nameFile)
   if type(nameFile)~="string" then return false end
   return os.rename(nameFile,nameFile) and true or false
