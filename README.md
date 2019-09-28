@@ -1,7 +1,4 @@
 
-
-
-# Changed
 ```
 Last update > Self-BOT-SR => https://gitlab.com/crco-project/Self-Bot-SR/tree/beta
  ```
