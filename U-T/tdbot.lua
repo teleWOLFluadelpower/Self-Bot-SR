@@ -2527,12 +2527,12 @@ function tdbot.sendPhoto(chat_id, reply_to_message_id, photo, caption, parse_mod
   sendMessage(chat_id, reply_to_message_id, input_message_content, parse_mode, disable_notification, from_background, reply_markup, callback, data)
 end
 
-function tdbot.sendSticker(chat_id, reply_to_message_id, sticker, width, height, disable_notification, from_background, reply_markup, callback, data)
+function tdbot.sendSticker(chat_id, reply_to_message_id, sticker, disable_notification, from_background, reply_markup, callback, data)
   local input_message_content = {
     ["@type"] = 'inputMessageSticker',
     sticker = getInputFile(sticker),
-    width = width,
-    height = height
+    width = 0,
+    height = 0
   }
   sendMessage(chat_id, reply_to_message_id, input_message_content, nil, disable_notification, from_background, reply_markup, callback, data)
 end
