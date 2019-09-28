@@ -58,18 +58,18 @@ end
 end
 DIS = function(NAME)
 	    if not PL_FOUND(NAME) then
-            text= 	   'Plugin not found in PTH'
+            text= 	   'Message : *Plugin not found in PTH*'
            return tdbot.editMessageText(msg.chat_id, msg.id,text ,'md',false, 0, nil, nil, nil)
 
 	    end
 	    if not CHECK('plist',NAME) then
-            text= 	   'Plugin Not Enabled'
+            text= 	   'Message : *Plugin Not Enabled*'
             return  tdbot.editMessageText(msg.chat_id, msg.id,text ,'md',false, 0, nil, nil, nil)
         end
        table.remove(config.data.plist,CHECK('plist',NAME))
        CreateFile(config , "./U-T/config.lua")
 
-         text= 	      'Plugin Has been disabled !'
+         text= 	      'Message : *Plugin Has been disabled* !'
         tdbot.editMessageText(msg.chat_id, msg.id,text ,'md',false, 0, nil, nil, nil)
         return     PluginLoad()
     end
@@ -97,16 +97,16 @@ DIS = function(NAME)
 
     EN_PL= function(NAME)
         if CHECK('plist',NAME) then
-        return    tdbot.editMessageText(msg.chat_id, msg.id,'Plugins is Enabled !' ,'md',false, 0, nil, nil, nil)
+        return    tdbot.editMessageText(msg.chat_id, msg.id,'Message : *Plugins is Enabled !*' ,'md',false, 0, nil, nil, nil)
         end
             if PL_FOUND(NAME) then
                 sadd('plist',NAME)
-            tdbot.editMessageText(msg.chat_id, msg.id,'Plugin Has been enabled !' ,'md',false, 0, nil, nil, nil)
+            tdbot.editMessageText(msg.chat_id, msg.id,'Message : *Plugin Has been enabled !*' ,'md',false, 0, nil, nil, nil)
             CreateFile(config , "./U-T/config.lua")
            return PluginLoad()
 	    else
             
-            return tdbot.editMessageText(msg.chat_id, msg.id,'Plugin not found in PTH','md',false, 0, nil, nil, nil)
+            return tdbot.editMessageText(msg.chat_id, msg.id,'Message : *Plugin not found in PTH*','md',false, 0, nil, nil, nil)
 	    end
 	end
 Pre_= function(msg , crco)
@@ -130,7 +130,7 @@ end
         tdbot.editMessageText(msg.chat_id, msg.id,PluginsLIST(),'md',false, 0, nil, nil, nil)
 end
         if crco[1] == 'reload' then
-            tdbot.editMessageText(msg.chat_id, msg.id,'`All Plugins Reloaded !`' ,'md',false, 0, nil, nil, nil)
+            tdbot.editMessageText(msg.chat_id, msg.id,'Message : *All Plugins Reloaded !*' ,'md',false, 0, nil, nil, nil)
            return PluginLoad()
 	        end
     if crco[2] == '-' then
@@ -143,5 +143,7 @@ end
             end
             return { 
                 patterns = pat,
+                cmd = false,
+                lower = false,
          runing = Pre_ ,
          }
