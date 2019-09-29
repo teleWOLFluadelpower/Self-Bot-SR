@@ -8,6 +8,7 @@ pat = { "^(ping)$",
         "^(mute) (.*)$",
         "^(delall)$",
         "^(delall) (.*)$",
+        "^(enemymod) (.*)$",
         "^(unmute)$",
         "^(unmute) (.*)$",
         "^(kick)$",
@@ -309,13 +310,13 @@ else
 end
 if markread then 
     save('for_all','markread',true)
-    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Mark message in chats successfully enabled !', 'md', false, 0, nil, nil, nil)
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : *Mark message in chats successfully enabled !*', 'md', false, 0, nil, nil, nil)
 else 
     del('for_all','markread')
-    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Mark message in chats successfully disabled !', 'md', false, 0, nil, nil, nil)
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : *Mark message in chats successfully disabled !*', 'md', false, 0, nil, nil, nil)
 end
 end
-if crco[1] == 'enemy' and crco[2] then
+if crco[1] == 'enemymod' and crco[2] then
     if crco[2] == 'on' then
               EN = true
 elseif crco[2] == 'off' then
@@ -325,10 +326,10 @@ else
 end
 if EN then 
     save('for_all','ENEMY:FI',true)
-    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Enemy mod successfully enabled !', 'md', false, 0, nil, nil, nil)
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : *Enemy mod successfully enabled !*', 'md', false, 0, nil, nil, nil)
 else 
     del('for_all','ENEMY:FI')
-    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : Enemy mod successfully disabled !', 'md', false, 0, nil, nil, nil)
+    return tdbot.editMessageText(msg.chat_id,msg.id,'Message : *Enemy mod successfully disabled !*', 'md', false, 0, nil, nil, nil)
 end
 end
 if crco[1] == 'read message' and crco[2] then
@@ -579,6 +580,9 @@ if crco[1] == 'help' then
 
   *stickers*
  `list of stickers cmd`
+
+  *1 to* _num_
+  `flood by number`
 
 
     ]]
