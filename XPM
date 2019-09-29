@@ -10,7 +10,6 @@ print("\027[" .. color.black[1] .. ";" .. color.green[2] .. "m ==> Account not f
     end
       end
 downloadTD =function()
-   if isDir(PTH) then
 
  if exists(PTH..'tdlua.so') then
 print("\027[" .. color.black[1] .. ";" .. color.green[2] .. "m ==> Load TDLIB Successfully\027[00m")
@@ -19,9 +18,6 @@ print("\027[" .. color.black[1] .. ";" .. color.green[2] .. "m ==> Enter Downloa
 local link = io.read()
 io.popen('wget -O tdlua.so '..link..' && sudo mv tdlua.so '..PTH)
 end 
-    else
-    print("\027[" .. color.black[1] .. ";" .. color.green[2] .. "m ==> PTH not found \027[00m")
-end
 end
 if config and config.info then
 api_id = config.info.api_id 
