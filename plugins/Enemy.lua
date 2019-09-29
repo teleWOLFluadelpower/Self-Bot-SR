@@ -168,7 +168,8 @@ else
   tdbot.deleteMessages(msg.chat_id, {[1] =msg.id}, nil, nil)
 sadd('Enemys',userid)
 tdbot.blockUser(userid,nil,nil)
- tdbot.sendVoiceNote(msg.chat_id,msg.reply_to_message_id, './CRCO/SUP.ogg', '*Hello MOTHER FUKCER*', 'md', 4, 'test', true, 0, nil, nil, nil)
+ tdbot.sendVoiceNote(msg.chat_id,(msg.reply_to_message_id or msg.id),  './CRCO/SUP.ogg', '*Hello MOTHER FUKCER*', 'md',  true, true, nil, nil, nil)
+
 end
 end
 end
