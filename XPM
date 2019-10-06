@@ -1,5 +1,5 @@
 #!/usr/bin/env lua
-PTH = '/usr/lib/lua/5.2/'
+PTH = '/usr/lua/5.2/'
 require("U-T.utils") 
 reset = function()
 if isFile('./CRCO-TG') then
